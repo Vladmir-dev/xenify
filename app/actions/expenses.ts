@@ -18,13 +18,30 @@ export async function createExpense(formData: FormData) {
     data: {
       amount,
       description,
-      categoryId,
       paymentMethod,
       date,
-      userId: session.user.id as string,
+      user: { connect: { email: session.user.email as string } },
+      category: {
+        connect: { id: categoryId },
+      },
     },
   });
 
   // This tells Next.js to clear the cache and fetch fresh data for the dashboard
+  revalidatePath("/dashboard");
+}
+
+
+export async function deleteExpense(id: string) {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+
+  await prisma.expense.delete({
+    where: {
+      id,
+      userId: session.user.id as string, // Security: Ensure users can only delete their own data
+    },
+  });
+
   revalidatePath("/dashboard");
 }
