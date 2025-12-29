@@ -6,6 +6,7 @@ import type { Prisma } from "@prisma/client";
 import AddExpenseForm from "@/components/AddExpenseForm";
 import DeleteExpenseButton from "@/components/DeleteExpenseButton";
 import EditExpenseModal from "@/components/EditExpenseModal";
+import Navbar from "@/components/Navbar";
 
 type ExpenseWithCategory = Prisma.ExpenseGetPayload<{
   include: { category: true };
@@ -45,7 +46,9 @@ export default async function DashboardPage() {
     .reduce((sum: number, e: ExpenseWithCategory) => sum + e.amount, 0);
 
   return (
+    <div><Navbar />
     <div className="min-h-screen bg-gray-50 p-8">
+        
       <div className="mx-auto max-w-7xl">
         <header className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">XenFi Dashboard</h1>
@@ -132,6 +135,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

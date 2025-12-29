@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { createCategory, deleteCategory } from "@/app/actions/categories";
+import Navbar from "@/components/Navbar";
 
 export default async function CategoriesPage() {
   const session = await auth();
@@ -9,7 +10,10 @@ export default async function CategoriesPage() {
   });
 
   return (
+    <div>
+        <Navbar />
     <div className="p-8 max-w-4xl mx-auto">
+        
       <h1 className="text-2xl font-bold mb-6">Manage Categories</h1>
       
       {/* Create Form */}
@@ -44,6 +48,7 @@ export default async function CategoriesPage() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }
