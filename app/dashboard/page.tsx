@@ -5,6 +5,7 @@ import { format } from "date-fns"; // Run: npm install date-fns
 import type { Prisma } from "@prisma/client";
 import AddExpenseForm from "@/components/AddExpenseForm";
 import DeleteExpenseButton from "@/components/DeleteExpenseButton";
+import EditExpenseModal from "@/components/EditExpenseModal";
 
 type ExpenseWithCategory = Prisma.ExpenseGetPayload<{
   include: { category: true };
@@ -121,6 +122,7 @@ export default async function DashboardPage() {
                       ${expense.amount.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 text-right">
+                        <EditExpenseModal expense={expense} categories={categories} />
                       <DeleteExpenseButton id={expense.id} />
                     </td>
                   </tr>
