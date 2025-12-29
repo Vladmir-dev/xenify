@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { Trash2 } from "lucide-react";
 import CategoryAddModal from "@/components/CategoryAddModal";
 import CategoryEditModal from "@/components/CategoryEditModal";
+import type { Category } from "@prisma/client";
 
 export default async function CategoriesPage() {
   const session = await auth();
@@ -14,8 +15,9 @@ export default async function CategoriesPage() {
       redirect("/login");
     }
 
-  const categories = await prisma.category.findMany({
-    where: { userId: session?.user?.id },
+  const categories: Pick<Category, "id" | "name" | "description">[] = await prisma.category.findMany({
+    select: { id: true, name: true, description: true },
+    where: { userId: session?.user?.id as string },
   });
 
   return (
