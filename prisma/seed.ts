@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { Pool } from 'pg'
+import bcrypt from 'bcrypt'
 
 // Since we are running this outside the Next.js app context, 
 // we re-initialize the connection briefly for the script.
@@ -19,11 +20,14 @@ async function main() {
   await prisma.category.deleteMany()
   await prisma.user.deleteMany()
 
+  const hashedPassword = await bcrypt.hash('password123', 10)
+
   // 2. Create a Demo User
   const user = await prisma.user.create({
     data: {
       name: 'Pius Tumwebaze',
       email: 'tempestpius70@gmail.com', // Using your email from the prompt
+      password: hashedPassword, 
     },
   })
 
@@ -66,6 +70,8 @@ async function main() {
   })
 
   console.log('✅ Database seeded successfully!')
+  console.log('Email: tempestpius70@gmail.com')
+  console.log('Password: password123')
 }
 
 main()
