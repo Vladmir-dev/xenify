@@ -26,7 +26,7 @@ This is a production-minded internal tool built for the XenFi Systems Software E
 ### 1. Clone & Install
 ```bash
 git clone <your-repo-url>
-cd xenfi-expense-tracker
+cd xenify
 npm install
 ```
 
