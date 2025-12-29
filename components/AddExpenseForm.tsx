@@ -71,6 +71,7 @@ export default function AddExpenseForm({ categories }: { categories: any[] }) {
             <label className="block text-sm font-medium">Payment Method</label>
             <select
               name="paymentMethod"
+              required
               className="mt-1 block w-full rounded-md border border-gray-300 p-2"
             >
               <option>Card</option>
@@ -85,6 +86,7 @@ export default function AddExpenseForm({ categories }: { categories: any[] }) {
             <input
               name="date"
               type="date"
+              required
               defaultValue={new Date().toISOString().split("T")[0]}
               className="mt-1 block w-full rounded-md border border-gray-300 p-2"
             />
