@@ -2,15 +2,21 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns"; // Run: npm install date-fns
-import type { Prisma } from "@prisma/client";
 import AddExpenseForm from "@/components/AddExpenseForm";
 import DeleteExpenseButton from "@/components/DeleteExpenseButton";
 import EditExpenseModal from "@/components/EditExpenseModal";
 import Navbar from "@/components/Navbar";
 
-type ExpenseWithCategory = Prisma.ExpenseGetPayload<{
-  include: { category: true };
-}>;
+type ExpenseWithCategory = {
+  id: string;
+  amount: number;
+  description: string;
+  date: Date;
+  paymentMethod: string;
+  categoryId: string;
+  category: { name: string };
+};
+type CategoryOption = { id: string; name: string };
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -23,14 +29,23 @@ export default async function DashboardPage() {
   // 2. Fetch Data
   const userId = session.user.id as string;
 
-  const expenses = await prisma.expense.findMany({
+  const expenses: ExpenseWithCategory[] = await prisma.expense.findMany({
     where: { userId },
-    include: { category: true },
+    select: {
+      id: true,
+      amount: true,
+      description: true,
+      date: true,
+      paymentMethod: true,
+      categoryId: true,
+      category: { select: { name: true } },
+    },
     orderBy: { date: "desc" },
   });
 
-  const categories = await prisma.category.findMany({
+  const categories: CategoryOption[] = await prisma.category.findMany({
     where: { userId },
+    select: { id: true, name: true },
   });
 
   // 3. Simple Logic: Total for Current Month

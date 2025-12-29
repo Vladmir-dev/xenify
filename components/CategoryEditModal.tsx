@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { updateCategory } from "@/app/actions/categories";
 import { Pencil } from "lucide-react";
-import type { Category } from "@prisma/client";
+type CategoryRow = { id: string; name: string; description: string | null };
 
-export default function CategoryEditModal({ category }: { category: Pick<Category, "id" | "name" | "description"> }) {
+export default function CategoryEditModal({ category }: { category: CategoryRow }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pending, setPending] = useState(false);
 

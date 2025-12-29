@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateExpense } from "@/app/actions/expenses";
 import { Pencil } from "lucide-react";
-import type { Category } from "@prisma/client";
+type CategoryOption = { id: string; name: string };
 
 type ExpenseShape = {
   id: string;
@@ -14,7 +14,7 @@ type ExpenseShape = {
   date: string | Date;
 };
 
-export default function EditExpenseModal({ expense, categories }: { expense: ExpenseShape; categories: Pick<Category, "id" | "name">[] }) {
+export default function EditExpenseModal({ expense, categories }: { expense: ExpenseShape; categories: CategoryOption[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pending, setPending] = useState(false);
 
