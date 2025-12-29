@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { createExpense } from "@/app/actions/expenses";
+import type { Category } from "@prisma/client";
 
-export default function AddExpenseForm({ categories }: { categories: any[] }) {
+
+export default function AddExpenseForm({ categories }: { categories: Category[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pending, setPending] = useState(false);
 
