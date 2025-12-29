@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma.js";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { deleteCategory } from "@/app/actions/categories";

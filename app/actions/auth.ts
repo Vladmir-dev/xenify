@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma.js";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 

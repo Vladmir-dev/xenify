@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma.js";
 import { format } from "date-fns"; // Run: npm install date-fns
 import AddExpenseForm from "@/components/AddExpenseForm";
 import DeleteExpenseButton from "@/components/DeleteExpenseButton";

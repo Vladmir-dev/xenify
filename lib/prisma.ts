@@ -1,21 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { Pool } from 'pg'
-
-const globalForPrisma = global as unknown as { prisma: PrismaClient }
-
-const connectionString = process.env.DATABASE_URL
-const pool = new Pool({
-  connectionString,
-  ssl: { rejectUnauthorized: false },
-})
-const adapter = new PrismaPg(pool)
-
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({ 
-    adapter,
-    log: ['query'] 
-  })
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+// This file exists to satisfy path imports ("@/lib/prisma").
+// All runtime logic is implemented in prisma.js to avoid TypeScript
+// compile-time dependency on generated @prisma/client types.
+export {};
