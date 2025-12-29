@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns"; // Run: npm install date-fns
 import type { Prisma } from "@prisma/client";
+import AddExpenseForm from "@/components/AddExpenseForm";
+
 type ExpenseWithCategory = Prisma.ExpenseGetPayload<{ include: { category: true } }>;
 
 export default async function DashboardPage() {
@@ -40,6 +42,8 @@ export default async function DashboardPage() {
         <header className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-900">XenFi Dashboard</h1>
           <p className="text-sm text-gray-500">Welcome back, {session.user.name}</p>
+
+          <AddExpenseForm categories={categories} />
         </header>
 
         {/* Top Cards */}
