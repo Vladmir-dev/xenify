@@ -26,3 +26,31 @@ export async function deleteCategory(id: string) {
   });
   revalidatePath("/categories");
 }
+
+export async function updateCategory(id: string, formData: FormData) {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+
+  const nameRaw = formData.get("name");
+  const descriptionRaw = formData.get("description");
+
+  if (typeof nameRaw !== "string" || !nameRaw.trim()) {
+    throw new Error("Name is required");
+  }
+
+  const name = nameRaw.trim();
+  const description = typeof descriptionRaw === "string" ? descriptionRaw.trim() : null;
+
+  await prisma.category.updateMany({
+    where: {
+      id,
+      userId: session.user.id as string,
+    },
+    data: {
+      name,
+      description,
+    },
+  });
+
+  revalidatePath("/categories");
+}

@@ -2,8 +2,19 @@
 
 import { useState } from "react";
 import { updateExpense } from "@/app/actions/expenses";
+import { Pencil } from "lucide-react";
+import type { Category } from "@prisma/client";
 
-export default function EditExpenseModal({ expense, categories }: { expense: any, categories: any[] }) {
+type ExpenseShape = {
+  id: string;
+  amount: number;
+  description: string;
+  categoryId: string;
+  paymentMethod: string | null;
+  date: string | Date;
+};
+
+export default function EditExpenseModal({ expense, categories }: { expense: ExpenseShape; categories: Pick<Category, "id" | "name">[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pending, setPending] = useState(false);
 
@@ -16,8 +27,12 @@ export default function EditExpenseModal({ expense, categories }: { expense: any
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className="text-blue-600 hover:text-blue-900 text-xs font-medium mr-3">
-        Edit
+      <button
+        onClick={() => setIsOpen(true)}
+        className="text-blue-600 hover:text-blue-900 text-xs font-medium mr-3 inline-flex items-center"
+        aria-label="Edit expense"
+      >
+        <Pencil className="h-4 w-4" />
       </button>
 
       {isOpen && (
