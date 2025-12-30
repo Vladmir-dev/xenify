@@ -4,7 +4,7 @@ This is a production-minded internal tool built for the XenFi Systems Software E
 
 ## 🚀 Live Demo
 - URL: [Insert your Vercel URL here]
-- Demo Credentials: `tempestpius70@gmail.com` / `password123` (Note: Password check is bypassed for this demo.)
+- Demo Credentials: `tempestpius70@gmail.com` / `password123` 
 
 ## 🛠 Tech Stack
 - Framework: Next.js 16 (App Router)
