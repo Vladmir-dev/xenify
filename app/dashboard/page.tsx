@@ -6,6 +6,7 @@ import AddExpenseForm from "@/components/AddExpenseForm";
 import DeleteExpenseButton from "@/components/DeleteExpenseButton";
 import EditExpenseModal from "@/components/EditExpenseModal";
 import Navbar from "@/components/Navbar";
+import ExpenseFilters from "@/components/ExpenseFilters";
 
 type ExpenseWithCategory = {
   id: string;
@@ -18,7 +19,11 @@ type ExpenseWithCategory = {
 };
 type CategoryOption = { id: string; name: string };
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ startDate?: string; endDate?: string; categoryId?: string }>;
+}) {
   const session = await auth();
 
   // 1. Security Check
@@ -28,9 +33,31 @@ export default async function DashboardPage() {
 
   // 2. Fetch Data
   const userId = session.user.id as string;
+  const params = await searchParams;
+  const startDate = params.startDate ? new Date(params.startDate) : null;
+  const endDate = params.endDate ? new Date(params.endDate) : null;
+  const categoryId = params.categoryId || null;
+
+  // Build filter conditions
+  const whereConditions: {
+    userId: string;
+    date?: { gte?: Date; lte?: Date };
+    categoryId?: string;
+  } = { userId };
+  if (startDate) {
+    whereConditions.date = { ...whereConditions.date, gte: startDate };
+  }
+  if (endDate) {
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+    whereConditions.date = { ...whereConditions.date, lte: endOfDay };
+  }
+  if (categoryId) {
+    whereConditions.categoryId = categoryId;
+  }
 
   const expenses: ExpenseWithCategory[] = await prisma.expense.findMany({
-    where: { userId },
+    where: whereConditions,
     select: {
       id: true,
       amount: true,
@@ -103,6 +130,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent Expenses Table */}
+        <ExpenseFilters categories={categories} />
         <div className="mt-8 rounded-xl border bg-white shadow-sm">
           <div className="border-b px-6 py-4">
             <h2 className="text-lg font-semibold">Recent Expenses</h2>

@@ -23,7 +23,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError("Invalid credentials. Try the email you seeded!");
+      setError("Invalid credentials");
     } else {
       router.push("/dashboard");
       router.refresh();
